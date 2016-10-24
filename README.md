@@ -1,6 +1,6 @@
 # QQAlbumPi
 
-可供树莓派使用来播放QQ相册中的照片
+供树莓派使用来播放`QQ相册`或`文件夹`中的照片
 
 # 使用方法
 
@@ -23,5 +23,5 @@ python server.py --port {port} --qq {qq} --albumid {albumid} --interval {interva
 # 浏览器访问http://localhost:{port}，并开启全屏模式
 ```
 # 效果
-![效果图1](https://github.com/Everley1993/QQAlbumPi/blob/master/example/p1.JPG)
-![效果图2](https://github.com/Everley1993/QQAlbumPi/blob/master/example/p2.JPG)
+![](https://github.com/Everley1993/AlbumPi/blob/master/example/p1.JPG)
+![](https://github.com/Everley1993/AlbumPi/blob/master/example/p2.JPG)
