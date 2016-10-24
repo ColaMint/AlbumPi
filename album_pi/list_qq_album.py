@@ -1,16 +1,18 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
-from optparse import OptionParser
+import argparse
 import requests
 import xmltodict
 
-parser = OptionParser()
-parser.add_option(
+parser = argparse.ArgumentParser(description='List QQ Album.')
+parser.add_argument(
     '--qq',
     dest='qq',
+    required=True,
     help='qq number')
-args, _ = parser.parse_args()
+args = parser.parse_args()
+
 
 def get_albums(qq):
     url = 'http://shalist.photo.qq.com/fcgi-bin/fcg_list_album?uin=%s' % qq

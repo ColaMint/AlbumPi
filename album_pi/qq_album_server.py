@@ -1,43 +1,49 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
+
+from album_pi import *
 from flask import Flask, Response, render_template
-from optparse import OptionParser
+import argparse
 import base64
 import requests
 import xmltodict
 import json
 
-DISPLAY_MODE_ORDER = 'order'
-DISPLAY_MODE_SHUFFLE = 'shuffle'
 
-parser = OptionParser()
-parser.add_option(
+parser = argparse.ArgumentParser(description='QQ Album Server.')
+parser.add_argument(
     '--port',
     dest='port',
     help='server port',
     default=2333,
-    type='int')
-parser.add_option(
+    type=int)
+parser.add_argument(
     '--qq',
     dest='qq',
+    required=True,
     help='qq number')
-parser.add_option(
+parser.add_argument(
     '--albumid',
     dest='albumid',
+    required=True,
     help='album id. eg. 099c6fb8-d278-4b96-adbc-5d6356ad316a')
-parser.add_option(
+parser.add_argument(
     '--interval',
     dest='interval',
-    help='switch picture interval (second)',
+    help='switch picture interval (seconds)',
     default=10,
-    type='int')
-parser.add_option(
+    type=int)
+parser.add_argument(
     '--display_mode',
     dest='display_mode',
-    help='display mode: order, shuffle',
+    help='display mode',
+    choices=[DISPLAY_MODE_ORDER, DISPLAY_MODE_SHUFFLE],
     default=DISPLAY_MODE_SHUFFLE)
-args, _ = parser.parse_args()
+args = parser.parse_args()
 
 
 global pics
