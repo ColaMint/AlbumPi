@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>QQ Album Pi</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+    <script type="text/javascript">
+        var pics = {{ pics | safe }};
+        var interval = {{ interval }};
+        var displayMode = "{{ display_mode }}";
+        var currentIndex = 0;
+
+        function onload() {
+            if (pics.length > 0) {
+                displayPictures();
+            } else {
+                displayError("No Pictures");
+            }
+        }
+
+        function displayPictures() {
+            displayNextPicture();
+        }
+
+        function displayNextPicture() {
+            switch (displayMode) {
+            case "order":
+                currentIndex += 1;
+                if (currentIndex >= pics.length) {
+                    currentIndex = 0;
+                }
+                break;
+            case "shuffle":
+            default:
+                currentIndex = Math.ceil(Math.random()*pics.length);
+                break;
+            }
+            displayPicture(currentIndex);
+        }
+
+        function displayPicture(index) {
+            var newImg = document.createElement("img");
+            newImg.id = "picture";
+
+            var pic = pics[index];
+            var windowWidth = $(window).width();
+            var windowHeight = $(window).height();
+            var widthRadio  = 1.0 * windowWidth / pic.width;
+            var heightRadio = 1.0 * windowHeight / pic.height;
+            var radio = Math.min(widthRadio, heightRadio);
+            radio = Math.min(radio, 1.0);
+            var width  = pic.width * radio;
+            var height = pic.height * radio;
+            var left   = (windowWidth - width) / 2.0;
+            var top    = (windowHeight - height) / 2.0;
+
+            newImg.style.position = "absolute";
+            newImg.style.width = width + "px";
+            newImg.style.height = height + "px";
+            newImg.style.left = left + "px";
+            newImg.style.top = top + "px";
+
+            newImg.onload = function() {
+                $("#picture").remove();
+                $("body").append(newImg);
+                window.setTimeout("displayNextPicture();", interval*1000);
+            }
+            newImg.onerror = function() {
+                window.setTimeout("displayNextPicture();", interval*1000);
+            }
+            newImg.src =  pics[index].url;
+        }
+
+        function displayError(error) {
+            document.write(error);
+        }
+    </script>
+</head>
+<body onload="onload();" style="background:black;">
+</body>
+</html>
